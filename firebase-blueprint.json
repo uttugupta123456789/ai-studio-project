@@ -1,0 +1,169 @@
+{
+  "entities": {
+    "Customer": {
+      "title": "Customer",
+      "description": "Customer record for the electronics store",
+      "type": "object",
+      "properties": {
+        "id": { "type": "string" },
+        "name": { "type": "string", "maxLength": 100 },
+        "email": { "type": "string", "maxLength": 150 },
+        "phone": { "type": "string", "maxLength": 30 },
+        "address": { "type": "string", "maxLength": 200 },
+        "notes": { "type": "string", "maxLength": 500 },
+        "createdAt": { "type": "string" },
+        "updatedAt": { "type": "string" }
+      },
+      "required": ["name", "email", "createdAt"]
+    },
+    "Product": {
+      "title": "Product",
+      "description": "Electronics product item available in the store catalogue",
+      "type": "object",
+      "properties": {
+        "id": { "type": "string" },
+        "name": { "type": "string", "maxLength": 150 },
+        "description": { "type": "string", "maxLength": 1000 },
+        "category": { "type": "string", "maxLength": 50 },
+        "price": { "type": "number" },
+        "availability": {
+          "type": "string",
+          "enum": ["Available", "Out of Stock", "Discontinued"]
+        },
+        "brand": { "type": "string", "maxLength": 50 },
+        "sku": { "type": "string", "maxLength": 50 },
+        "stockCount": { "type": "number" },
+        "imageUrl": { "type": "string", "maxLength": 500 },
+        "createdAt": { "type": "string" },
+        "updatedAt": { "type": "string" }
+      },
+      "required": ["name", "category", "price", "availability"]
+    },
+    "Enquiry": {
+      "title": "Enquiry",
+      "description": "Sales enquiry submitted manually or imported from Gmail",
+      "type": "object",
+      "properties": {
+        "id": { "type": "string" },
+        "customerId": { "type": "string" },
+        "customerName": { "type": "string", "maxLength": 100 },
+        "customerEmail": { "type": "string", "maxLength": 150 },
+        "enquiryText": { "type": "string", "maxLength": 2000 },
+        "productId": { "type": "string" },
+        "productName": { "type": "string", "maxLength": 150 },
+        "source": { "type": "string", "enum": ["Manual", "Gmail"] },
+        "status": {
+          "type": "string",
+          "enum": ["Pending", "In Progress", "Responded", "Closed"]
+        },
+        "assignedStaff": { "type": "string", "maxLength": 100 },
+        "urgency": {
+          "type": "string",
+          "enum": ["Critical", "High", "Medium", "Low"]
+        },
+        "urgencyScore": { "type": "number" },
+        "urgencyReason": { "type": "string", "maxLength": 1000 },
+        "gmailMessageId": { "type": "string", "maxLength": 100 },
+        "gmailThreadId": { "type": "string", "maxLength": 100 },
+        "draftResponse": { "type": "string", "maxLength": 3000 },
+        "receivedAt": { "type": "string" },
+        "updatedAt": { "type": "string" }
+      },
+      "required": ["customerId", "customerName", "customerEmail", "enquiryText", "source", "status", "receivedAt"]
+    },
+    "Communication": {
+      "title": "Communication",
+      "description": "Incoming or outgoing message history for an enquiry or customer",
+      "type": "object",
+      "properties": {
+        "id": { "type": "string" },
+        "customerId": { "type": "string" },
+        "enquiryId": { "type": "string" },
+        "channel": { "type": "string", "enum": ["Gmail", "Manual", "Phone", "In-Store"] },
+        "direction": { "type": "string", "enum": ["Incoming", "Outgoing"] },
+        "subject": { "type": "string", "maxLength": 200 },
+        "messageBody": { "type": "string", "maxLength": 5000 },
+        "status": { "type": "string", "enum": ["Draft", "Sent", "Delivered", "Failed", "Received"] },
+        "gmailMessageId": { "type": "string", "maxLength": 100 },
+        "sentOrReceivedAt": { "type": "string" },
+        "createdAt": { "type": "string" }
+      },
+      "required": ["customerId", "direction", "messageBody", "sentOrReceivedAt"]
+    },
+    "StaffUser": {
+      "title": "StaffUser",
+      "description": "Authorized staff member record",
+      "type": "object",
+      "properties": {
+        "id": { "type": "string" },
+        "uid": { "type": "string" },
+        "name": { "type": "string", "maxLength": 100 },
+        "email": { "type": "string", "maxLength": 150 },
+        "role": { "type": "string", "enum": ["Admin", "Sales Manager", "Sales Representative"] },
+        "createdAt": { "type": "string" }
+      },
+      "required": ["email", "name", "role"]
+    },
+    "SyncedEmail": {
+      "title": "SyncedEmail",
+      "description": "Emails synchronized from Gmail API with AI urgency classification and store metadata",
+      "type": "object",
+      "properties": {
+        "id": { "type": "string" },
+        "gmailMessageId": { "type": "string", "maxLength": 100 },
+        "threadId": { "type": "string", "maxLength": 100 },
+        "senderName": { "type": "string", "maxLength": 120 },
+        "senderEmail": { "type": "string", "maxLength": 150 },
+        "subject": { "type": "string", "maxLength": 300 },
+        "bodyText": { "type": "string", "maxLength": 8000 },
+        "snippet": { "type": "string", "maxLength": 1000 },
+        "urgency": {
+          "type": "string",
+          "enum": ["Critical", "High", "Medium", "Low"]
+        },
+        "urgencyScore": { "type": "number" },
+        "urgencyReason": { "type": "string", "maxLength": 1000 },
+        "recommendedAction": { "type": "string", "maxLength": 500 },
+        "aiCategory": { "type": "string", "maxLength": 100 },
+        "isSalesEnquiry": { "type": "boolean" },
+        "matchedProductId": { "type": "string" },
+        "matchedProductName": { "type": "string", "maxLength": 150 },
+        "customerId": { "type": "string" },
+        "enquiryId": { "type": "string" },
+        "receivedAt": { "type": "string" },
+        "syncedAt": { "type": "string" },
+        "status": {
+          "type": "string",
+          "enum": ["New", "In Review", "Replied", "Archived"]
+        }
+      },
+      "required": ["senderEmail", "subject", "urgency", "receivedAt"]
+    }
+  },
+  "firestore": {
+    "/customers/{customerId}": {
+      "schema": { "$ref": "#/entities/Customer" },
+      "description": "Store customers"
+    },
+    "/products/{productId}": {
+      "schema": { "$ref": "#/entities/Product" },
+      "description": "Electronics product catalog"
+    },
+    "/enquiries/{enquiryId}": {
+      "schema": { "$ref": "#/entities/Enquiry" },
+      "description": "Sales customer enquiries"
+    },
+    "/communications/{communicationId}": {
+      "schema": { "$ref": "#/entities/Communication" },
+      "description": "Customer communication logs and drafts"
+    },
+    "/staff_users/{userId}": {
+      "schema": { "$ref": "#/entities/StaffUser" },
+      "description": "Store staff user directory"
+    },
+    "/synced_emails/{emailId}": {
+      "schema": { "$ref": "#/entities/SyncedEmail" },
+      "description": "Persistent store of synchronized Gmail emails with AI urgency analysis"
+    }
+  }
+}

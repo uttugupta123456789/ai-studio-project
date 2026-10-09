@@ -1,0 +1,6 @@
+{
+  "name": "ElectroSales AI - Electronics Store Sales Assistant",
+  "description": "AI-powered sales assistant and customer enquiry management platform for electronics stores, featuring smart inventory search, automated Gmail integration, and AI response drafting.",
+  "requestFramePermissions": [],
+  "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
+}

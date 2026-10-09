@@ -1,0 +1,52 @@
+rules_version = '2';
+service cloud.firestore {
+  match /databases/{database}/documents {
+
+    function isValidId(id) {
+      return id is string && id.size() > 0 && id.size() <= 128 && id.matches('^[a-zA-Z0-9_\\-]+$');
+    }
+
+    // Default deny
+    match /{document=**} {
+      allow read, write: if false;
+    }
+
+    // Customers collection
+    match /customers/{customerId} {
+      allow get, list: if true;
+      allow create, update, delete: if isValidId(customerId);
+    }
+
+    // Products catalogue collection
+    match /products/{productId} {
+      allow get, list: if true;
+      allow create, update, delete: if isValidId(productId);
+    }
+
+    // Enquiries collection
+    match /enquiries/{enquiryId} {
+      allow get, list: if true;
+      allow create, update, delete: if isValidId(enquiryId);
+    }
+
+    // Communications collection
+    match /communications/{communicationId} {
+      allow get, list: if true;
+      allow create, update, delete: if isValidId(communicationId);
+    }
+
+    // Staff Users collection
+    match /staff_users/{userId} {
+      allow get, list: if true;
+      allow create, update, delete: if isValidId(userId);
+    }
+
+    // Synced Emails collection
+    match /synced_emails/{emailId} {
+      allow get, list: if true;
+      allow create, update, delete: if isValidId(emailId);
+    }
+  }
+}
+
+
